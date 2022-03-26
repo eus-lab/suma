@@ -81,12 +81,7 @@ namespace libforce::agent
             return;
         }
 
-        // Transpose the batch (see https://stackoverflow.com/a/19343/3343043 for
-        // detailed explanation). This converts batch-array of Transitions
-        // to Transition of batch-arrays.
-
-        // Compute a mask of non-final states and concatenate the batch elements
-        // (a final state would've been the one after which simulation ended)
+        // Compute a mask
 
         auto non_final_mask = batch_transition.get_done();
 
@@ -106,16 +101,10 @@ namespace libforce::agent
         auto action_batch = batch_transition.get_action();
         auto reward_batch = batch_transition.get_reward();
 
-        // Compute Q(s_t, a) - the model computes Q(s_t), then we select the
-        // columns of actions taken. These are the actions which would've been taken
-        // for each batch state according to policy_net
+        // Compute Q(s_t, a)
         auto state_action_values = policy_net(state_batch).gather(1, action_batch); // 2
 
-        // Compute V(s_{t+1}) for all next states.
-        // Expected values of actions for non_final_next_states are computed based
-        // on the "older" target_net; selecting their best reward with max(1)[0].
-        // This is merged based on the mask, such that we'll have either the expected
-        // state value or 0 in case the state was final.
+        // Compute V(s_{t+1})
         auto next_state_values = torch::zeros({BATCH_SIZE, 1}, torch::TensorOptions().dtype(torch::kFloat)); // 2
 
         next_state_values.masked_scatter_(non_final_mask, std::get<0>(target_net(non_final_next_states).max(1)).detach()); // 2

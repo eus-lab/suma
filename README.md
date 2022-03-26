@@ -80,4 +80,4 @@ Configure your CMakeLists.txt to link LibForce and LibTorch:
 
 ## Implemented Algorithms
 
-* DQN
+* DQN ([Reference](https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html))

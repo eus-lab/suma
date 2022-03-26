@@ -133,7 +133,7 @@ std::tuple<torch::Tensor, int64_t, bool> Gym<envid>::step(torch::Tensor action){
 
 template<gym envid>
 torch::Tensor Gym<envid>::render(){
-    // (2,0,1) chw style
+
     //auto screen = env->attr("render")("rgb_array").attr("transpose")(2,0,1);
     //auto type = env->attr("render")("rgb_array").attr("dtype").str().cast<std::string>();
     //return utils::pyobj2tensor(type, screen).clone();
@@ -146,7 +146,6 @@ torch::Tensor Gym<envid>::render(){
     auto screen = env->attr("render")("rgb_array").attr("astype")(type);
     //auto type = screen.attr("dtype").str().cast<std::string>();
 
-    //std::cout << type << std::endl;
     return utils::pyobj2tensor(type, screen).permute({2,0,1}).clone();
 }
 
