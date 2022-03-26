@@ -38,8 +38,8 @@ Download and extract LibTorch like that:
 
 Download [mjpro 150](https://roboti.us/download.html)
 and
-[activation key](https://roboti.us/license.html)
-like that:
+[activation key](https://roboti.us/license.html).
+Extract like that:
 
 
     unzip mjpro150_xxx.zip
